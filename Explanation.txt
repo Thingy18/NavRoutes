@@ -1,0 +1,1 @@
+I am going to set this up so that the algorithm will calculate everything in units of 1 hour
