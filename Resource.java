@@ -1,25 +1,21 @@
 public class Resource {
-    String name;
-    int quantity;
+    String type; // Type of resource, e.g., "Food", "Water", "Medicine"
+    int quantity; // Quantity to deliver
 
-    Resource(String name, int quantity) {
-        this.name = name;
+    public Resource(String type, int quantity) {
+        this.type = type;
         this.quantity = quantity;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public void addQuantity(int quantity) {
-        this.quantity += quantity;
-    }
-
-    public void subtractQuantity(int quantity) {
-        this.quantity -= quantity;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

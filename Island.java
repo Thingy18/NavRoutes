@@ -3,12 +3,13 @@ public class Island {
     int numPeople;
     Resource[] resources;
     Route[] routes;
-
-    Island(String name, int numPeople, Resource[] resources, Route[] routes) {
+    int id;
+    Island(String name, int numPeople, Resource[] resources, Route[] routes, int id) {
         this.name = name;
         this.numPeople = numPeople;
         this.resources = resources;
         this.routes = routes;
+        this.id = id;
     }
 
     public String getName() {
@@ -27,6 +28,10 @@ public class Island {
         return routes;
     }
 
+    public int getId() {
+        return id;
+    }
+    
     public void addPeople(int numPeople) {
         this.numPeople += numPeople;
     }
@@ -48,7 +53,7 @@ public class Island {
         Resource[] newResources = new Resource[resources.length - 1];
         int j = 0;
         for (int i = 0; i < resources.length; i++) {
-            if (!resources[i].getName().equals(resourceName)) {
+            if (!resources[i].getType().equals(resourceName)) {
                 newResources[j] = resources[i];
                 j++;
             }

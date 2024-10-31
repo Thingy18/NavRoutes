@@ -1,34 +1,25 @@
 import java.util.LinkedList;
 
 public class CanoeRoute {
-    // Using LinkedLists for routes and islands
     LinkedList<Route> routes;
     LinkedList<Island> islands;
+    LinkedList<Delivery> deliveries;
     boolean atSea = false;
     int timeIntoRoute = 0;
-
-    // Pointers for the current position
     Route currentRoute;
     Island currentIsland;
 
-    CanoeRoute(LinkedList<Route> routes, LinkedList<Island> islands) {
+    public CanoeRoute(LinkedList<Route> routes, LinkedList<Island> islands, LinkedList<Delivery> deliveries) {
         this.routes = routes;
         this.islands = islands;
+        this.deliveries = deliveries;
         this.currentIsland = islands.getFirst();
         this.currentRoute = routes.getFirst();
     }
 
-    public LinkedList<Route> getRoutes() {
-        return routes;
-    }
-
-    public LinkedList<Island> getIslands() {
-        return islands;
-    }
-
     public String getLocation() {
         if (atSea) {
-            return "The canoe is at sea. It is " + timeIntoRoute + " hours out from " + currentRoute.start.name
+            return "The canoe is at sea. It is currently " + timeIntoRoute + " hours out from " + currentRoute.start.name
                     + " with " + (currentRoute.travelTime - timeIntoRoute)
                     + " hours left till it reaches " + currentRoute.end.name;
         } else {
@@ -44,18 +35,14 @@ public class CanoeRoute {
                 atSea = false;
                 timeIntoRoute = 0;
 
-                // Move to the next island and route if available
                 int islandIndex = islands.indexOf(currentIsland);
                 if (islandIndex + 1 < islands.size()) {
                     currentIsland = islands.get(islandIndex + 1);
                     currentRoute = routes.get(islandIndex + 1);
                     System.out.println("Canoe has arrived at " + currentIsland.getName());
-                } else {
-                    System.out.println("End of route. Canoe has reached the final island: " + currentIsland.getName());
                 }
             }
         } else {
-            // Start the next route if there is one
             int routeIndex = routes.indexOf(currentRoute);
             if (routeIndex + 1 < routes.size()) {
                 atSea = true;
