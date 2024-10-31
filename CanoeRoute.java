@@ -19,9 +19,9 @@ public class CanoeRoute {
 
     public String getLocation() {
         if (atSea) {
-            return "The canoe is at sea. It is currently " + timeIntoRoute + " hours out from " + currentRoute.start.name
+            return "The canoe is at sea. It is currently " + timeIntoRoute + " hours out from " + currentRoute.start
                     + " with " + (currentRoute.travelTime - timeIntoRoute)
-                    + " hours left till it reaches " + currentRoute.end.name;
+                    + " hours left till it reaches " + currentRoute.end;
         } else {
             return "Currently in port at " + currentIsland.getName();
         }
@@ -46,7 +46,7 @@ public class CanoeRoute {
             int routeIndex = routes.indexOf(currentRoute);
             if (routeIndex + 1 < routes.size()) {
                 atSea = true;
-                System.out.println("Canoe has left " + currentIsland.getName() + " and is heading to " + currentRoute.end.name);
+                System.out.println("Canoe has left " + currentIsland.getName() + " and is heading to " + currentRoute.end);
             } else {
                 System.out.println("No more routes to navigate.");
             }

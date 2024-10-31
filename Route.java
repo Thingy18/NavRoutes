@@ -1,19 +1,19 @@
 public class Route {
-    Island start;
-    Island end;
+    String start;
+    String end;
     int travelTime;
 
-    Route(Island start, Island end, int travelTime) {
+    Route(String start, String end, int travelTime) {
         this.start = start;
         this.end = end;
         this.travelTime = travelTime;
     }
 
-    public Island getStart() {
+    public String getStart() {
         return start;
     }
 
-    public Island getEnd() {
+    public String getEnd() {
         return end;
     }
 

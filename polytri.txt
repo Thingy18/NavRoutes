@@ -1,0 +1,4 @@
+Hawai'i 500 Resources(Banana:50,Pineapple:25,Fish:100) Routes(O'ahu:24,Maui:12,Kaua'i:36)
+O'ahu 1000 Resources(Mango:50,Wood:125,Coconut:100) Routes(Hawai'i:24,Maui:12,Kaua'i:12)
+Maui 250 Resources(Fish:50,Wood:125,Shrimp:100) Routes(Hawai'i:24,O'ahu:12,Kaua'i:30)
+Kaua'i 125 Resources(Banana:50,Shrimp:125,Coconut:100) Routes(Hawai'i:36,Maui:30,O'ahu:12)

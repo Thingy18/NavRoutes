@@ -8,6 +8,13 @@ public class PolynesianTriangle {
         this.routes = routes;
     }
 
+    public String toString(){
+        String result = "";
+        for (Island island : islands) {
+            result += island.id + "\n";
+        }
+        return result;
+    }
     public void progress(){
         for (Canoe canoe : canoesOnRoutes) {
             canoe.getRoute().updateLocation();
