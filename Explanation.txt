@@ -1,1 +1,8 @@
-I am going to set this up so that the algorithm will calculate everything in units of 1 hour
+I am have set this up so that the algorithm will calculate everything in units of 1 hour
+
+I am going to add my algorithm on Friday
+
+So far I have set up a text file so when the main method in the NavRoutes class is run
+it will set up four islands and a route between every islands
+
+Text me if you need anything

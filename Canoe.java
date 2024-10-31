@@ -1,12 +1,9 @@
 public class Canoe {
     Resource resource;
-    CanoeRoute cRoute = null;
+    CanoeRoute cRoute;
 
-    public Canoe(Resource resource) {
+    public Canoe(Resource resource, CanoeRoute cRoute) {
         this.resource = resource;
-    }
-
-    public void setRoute(CanoeRoute cRoute) {
         this.cRoute = cRoute;
     }
 
