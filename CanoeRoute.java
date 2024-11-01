@@ -3,18 +3,21 @@ import java.util.LinkedList;
 public class CanoeRoute {
     LinkedList<Route> routes;
     LinkedList<Island> islands;
-    LinkedList<Delivery> deliveries;
+    Delivery delivery;
     boolean atSea = false;
+    boolean finished = false;
     int timeIntoRoute = 0;
     Route currentRoute;
     Island currentIsland;
+    int id;
 
-    public CanoeRoute(LinkedList<Route> routes, LinkedList<Island> islands, LinkedList<Delivery> deliveries) {
+    public CanoeRoute(LinkedList<Route> routes, LinkedList<Island> islands, Delivery delivery , int id) {
         this.routes = routes;
         this.islands = islands;
-        this.deliveries = deliveries;
+        this.delivery = delivery;
         this.currentIsland = islands.getFirst();
         this.currentRoute = routes.getFirst();
+        this.id = id;
     }
 
     public String getLocation() {
@@ -27,29 +30,49 @@ public class CanoeRoute {
         }
     }
 
+    public Delivery getdelivery() {
+        return delivery;
+    }
+
+    public void setFinished(){
+        finished = true;
+    }
+    
     public void updateLocation() {
         if (atSea) {
             timeIntoRoute++;
-            if (timeIntoRoute >= currentRoute.travelTime) {
+    
+            if (timeIntoRoute >= currentRoute.getTravelTime()) {
                 // Arrived at the next island
                 atSea = false;
                 timeIntoRoute = 0;
-
+    
                 int islandIndex = islands.indexOf(currentIsland);
                 if (islandIndex + 1 < islands.size()) {
+                    // Move to the next island
                     currentIsland = islands.get(islandIndex + 1);
-                    currentRoute = routes.get(islandIndex + 1);
-                    System.out.println("Canoe has arrived at " + currentIsland.getName());
+                    // Set the current route for the next island
+                    if(routes.size() > islandIndex){
+                        
+                    }else{
+                        currentRoute = routes.get(islandIndex + 1);
+                    }
+                     // Ensure routes are in the same order as islands
+                } else {
+                    finished = true; // No more islands to navigate to
                 }
             }
         } else {
+            // This part executes when the canoe is at the current island
             int routeIndex = routes.indexOf(currentRoute);
-            if (routeIndex + 1 < routes.size()) {
+            // Check if there is a next route available
+            if (routeIndex < routes.size()) {
+                // Start the next route
                 atSea = true;
-                System.out.println("Canoe has left " + currentIsland.getName() + " and is heading to " + currentRoute.end);
             } else {
-                System.out.println("No more routes to navigate.");
+                finished = true; // No more routes to navigate
             }
         }
     }
+    
 }

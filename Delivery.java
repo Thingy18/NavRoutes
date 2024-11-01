@@ -2,7 +2,7 @@ public class Delivery {
     Island destination;
     Resource resource;
 
-    Delivery(Island destination, Resource resource) {
+    public Delivery(Island destination, Resource resource) {
         this.destination = destination;
         this.resource = resource;
     }

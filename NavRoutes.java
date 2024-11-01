@@ -1,7 +1,16 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.Set;
 
 public class NavRoutes {
 
@@ -38,6 +47,153 @@ public class NavRoutes {
             pt = new PolynesianTriangle(islands.toArray(new Island[islands.size()]), Routes.toArray(new Route[Routes.size()]));
         }
         System.out.println(pt.toString());
+        // Map<Island, List<Integer>> paths = findShortestPaths(pt, pt.getIslands()[0]);
+        // for (Map.Entry<Island, List<Integer>> entry : paths.entrySet()) {
+        //     System.out.println("Path to Island ID " + entry.getKey().getId() + ": " + entry.getValue());
+        // }
+        pt = distrubuteResources(pt);
+        while(pt.allFinished() == false){
+            pt.progress();
+        }
+        System.out.println(pt.toString());
 
+    }
+
+    public static PolynesianTriangle distrubuteResources(PolynesianTriangle pt){
+        Island[] islands = pt.getIslands();
+        int totalPeoples = 0;
+        //Gets a count for how many islands each resource can be found on
+        Map<String, Integer> resourceCount = new HashMap<String, Integer>();
+        for (Island island : islands) {
+            totalPeoples += island.getNumPeople();
+            Resource[] resources = island.getResources();
+            for (Resource resource : resources) {
+                String resourceType = resource.getType();
+                resourceCount.put(resourceType, resourceCount.getOrDefault(resourceType, 0) + 1);
+            }
+        }
+        //Creates a list of resources that are unique to one island
+        ArrayList<Resource> uniqueResources = new ArrayList<Resource>();
+        for (Island island : islands) {
+            Resource[] resources = island.getResources();
+            for (Resource resource : resources) {
+                if (resourceCount.get(resource.getType()) == 1) {
+                    uniqueResources.add(resource);
+                }
+            }
+        }
+        //Sets up deliveries for each unique resource
+        for (Island island : islands) {
+            Map<Island, List<Integer>> paths = findShortestPaths(pt, island);
+            Resource[] resources = island.getResources();
+            for (Resource resource : resources) {
+                if (uniqueResources.contains(resource)) {
+                    for (Island otherIsland : islands) {
+                        if (otherIsland != island) {
+                            List<Integer> path = paths.get(otherIsland);
+                            if (path == null || path.isEmpty()) {
+                                continue; // Skip if no valid path found
+                            }
+                            
+                            LinkedList<Island> pathIslands = new LinkedList<>();
+                            LinkedList<Route> pathRoutes = new LinkedList<>();
+                            
+                            for (int i = 0; i < path.size(); i++) {
+                                pathIslands.add(islands[path.get(i)]);
+                                if (i != path.size() - 1) {
+                                    for (Route route : islands[path.get(i)].getRoutes()) {
+                                        if (route.getEnd().equals(islands[path.get(i + 1)].getName())) {
+                                            pathRoutes.add(route);
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // Calculate the total needed quantity based on the resource and population
+                            double temp1 = resource.getQuantity();
+                            double temp2 = totalPeoples;
+                            double temp3 = otherIsland.getNumPeople();
+                            double neededQuantity = (temp1 / temp2) * temp3;
+                            while (neededQuantity > 0 && resource.getQuantity() > 0) {
+                                if (neededQuantity >= 10) {
+                                    pt.addCanoe(new Canoe(new Resource(resource.getType(), 10), new CanoeRoute(pathRoutes, pathIslands, new Delivery(otherIsland, new Resource(resource.getType(), 10)), pt.canoesOnRoutes.size()), pt.canoesOnRoutes.size()));
+                                    neededQuantity -= 10; // Reduce the needed quantity
+                                } else{
+                                    pt.addCanoe(new Canoe(new Resource(resource.getType(), (int) neededQuantity), new CanoeRoute(pathRoutes, pathIslands, new Delivery(otherIsland, new Resource(resource.getType(), (int) neededQuantity)), pt.canoesOnRoutes.size()), pt.canoesOnRoutes.size()));
+                                    neededQuantity = 0; // Set the needed quantity to 0
+                                }
+                            }
+                        }
+                    }
+                }
+                double temp1 = resource.getQuantity();
+                double temp2 = totalPeoples;
+                double temp3 = totalPeoples - island.getNumPeople();
+                double temp4 = (temp1 / temp2) * (temp3);
+                int temp5 = (int) temp4;
+                island.removeResource(resource.getType(), temp5);
+            }
+        }
+        
+        return pt;
+    }
+
+    public static Map<Island, List<Integer>> findShortestPaths(PolynesianTriangle pt, Island startIsland) {
+        Map<Island, Integer> distances = new HashMap<>();
+        Map<Island, List<Integer>> paths = new HashMap<>();
+        Set<Island> visited = new HashSet<>();
+
+        // Initialize distances and paths
+        for (Island island : pt.getIslands()) {
+            distances.put(island, Integer.MAX_VALUE);
+            paths.put(island, new ArrayList<>());
+        }
+
+        distances.put(startIsland, 0);
+        paths.put(startIsland, new ArrayList<>(List.of(startIsland.getId()))); // Initialize path with starting island's ID
+
+        PriorityQueue<Island> queue = new PriorityQueue<>(Comparator.comparingInt(distances::get));
+        queue.add(startIsland);
+
+        while (!queue.isEmpty()) {
+            Island currentIsland = queue.poll();
+            if (visited.contains(currentIsland)) continue;
+            visited.add(currentIsland);
+
+            for (Route route : currentIsland.getRoutes()) {
+                Island neighbor = getIslandByName(pt.getIslands(), route.getEnd());
+                if (neighbor == null || visited.contains(neighbor)) continue;
+
+                int newDist = distances.get(currentIsland) + route.getTravelTime();
+                if (newDist < distances.get(neighbor)) {
+                    distances.put(neighbor, newDist);
+                    List<Integer> newPath = new ArrayList<>(paths.get(currentIsland));
+                    newPath.add(neighbor.getId()); // Store the ID of the neighbor island
+                    paths.put(neighbor, newPath);
+                    queue.add(neighbor);
+                }
+            }
+        }
+
+        // Create a list of entries and sort by path length
+        List<Map.Entry<Island, List<Integer>>> entryList = new ArrayList<>(paths.entrySet());
+        entryList.sort(Comparator.comparingInt(entry -> entry.getValue().size()));
+
+        // Create a new ordered map to maintain order
+        Map<Island, List<Integer>> orderedPaths = new LinkedHashMap<>();
+        for (Map.Entry<Island, List<Integer>> entry : entryList) {
+            orderedPaths.put(entry.getKey(), entry.getValue());
+        }
+
+        return orderedPaths;
+    }
+
+    private static Island getIslandByName(Island[] islands, String name) {
+        for (Island island : islands) {
+            if (island.getName().equals(name)) {
+                return island;
+            }
+        }
+        return null;
     }
 }

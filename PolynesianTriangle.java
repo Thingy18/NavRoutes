@@ -1,13 +1,28 @@
 import java.util.LinkedList;
 
+import java.util.Iterator;
+
 public class PolynesianTriangle {
     Island[] islands;
     Route[] routes;
-    LinkedList<Canoe> canoesOnRoutes = null;
+    LinkedList<Canoe> canoesOnRoutes;
     
     public PolynesianTriangle(Island[] islands, Route[] routes) {
         this.islands = islands;
         this.routes = routes;
+        canoesOnRoutes = new LinkedList<Canoe>();
+    }
+
+    public Island[] getIslands() {
+        return islands;
+    }
+
+    public Route[] getRoutes() {
+        return routes;
+    }
+    
+    public LinkedList<Canoe> getCanoesOnRoutes() {
+        return canoesOnRoutes;
     }
 
     public String toString(){
@@ -26,16 +41,33 @@ public class PolynesianTriangle {
         return result;
     }
 
-    public void progress(){
-        for (Canoe canoe : canoesOnRoutes) {
+    public void progress() {
+        Iterator<Canoe> iterator = canoesOnRoutes.iterator();
+    
+        while (iterator.hasNext()) {
+            Canoe canoe = iterator.next();
             canoe.getRoute().updateLocation();
-            if(canoe.atSea()){
-                islands[canoe.currentIsland()] = canoe.deliver(islands[canoe.currentIsland()]);
+            
+            if (canoe.atSea()) {
+                // Deliver resources and check if the canoe is done
+                Island currentIsland = islands[canoe.currentIsland()];
+                islands[canoe.currentIsland()] = canoe.deliver(currentIsland);
+            }
+            // If the canoe has finished delivering (i.e., no deliveries left), remove it
+            if (canoe.finished()) {
+                iterator.remove(); // Safe removal
             }
         }
     }
 
     public void addCanoe(Canoe canoe){
         canoesOnRoutes.add(canoe);
+    }
+
+    public boolean allFinished(){
+        if(canoesOnRoutes.size() > 0){
+            return false;
+        }
+        return true;
     }
 }

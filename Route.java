@@ -3,7 +3,7 @@ public class Route {
     String end;
     int travelTime;
 
-    Route(String start, String end, int travelTime) {
+    public Route(String start, String end, int travelTime) {
         this.start = start;
         this.end = end;
         this.travelTime = travelTime;

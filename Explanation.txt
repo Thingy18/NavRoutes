@@ -6,3 +6,8 @@ So far I have set up a text file so when the main method in the NavRoutes class 
 it will set up four islands and a route between every islands
 
 Text me if you need anything
+
+Since the sample size for testing is so small I am going to make it so each canoe can
+only carry a quantity of 10 units of a single resource though this could be changed for 
+a larger sample size and because it is not specifically said I am making the decision
+that there is a infinite number of canoes on each island
