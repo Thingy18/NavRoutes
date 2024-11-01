@@ -1,7 +1,5 @@
 I am have set this up so that the algorithm will calculate everything in units of 1 hour
 
-I am going to add my algorithm on Friday
-
 So far I have set up a text file so when the main method in the NavRoutes class is run
 it will set up four islands and a route between every islands
 
@@ -11,3 +9,20 @@ Since the sample size for testing is so small I am going to make it so each cano
 only carry a quantity of 10 units of a single resource though this could be changed for 
 a larger sample size and because it is not specifically said I am making the decision
 that there is a infinite number of canoes on each island
+
+The comments probably look wierd because I used a lot of ChatGPT to help me code I will
+fix them sunday unless you want to do that
+
+I have finished my algorithm and will put below the basics reasoning for my choices
+of data structure for the explanation 
+
+When there is an array it is because it was never going to have more or less values but
+the values would be looked at and modified without moving them
+
+When I used a linked list it was because I was going to be iterating through it 
+
+I used arraylists when creating the values I would send to other classes because they could
+easily be changed into arrays which is what those classes usually had
+
+The shortestPath class uses djikstras algorithm to create the shortest path from a starting
+island to every other island
