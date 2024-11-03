@@ -1,3 +1,18 @@
+/**
+ * This program simulates the movement of a skilled leader across a network of islands, where the leader shares
+ * knowledge based on each island’s population size and the recency of prior visits. The leader uses a priority-based
+ * algorithm to visit islands in an order that maximizes knowledge distribution to larger populations and prioritizes
+ * islands that have not been visited recently.
+ *
+ * This class initializes with a starting island and calculates the optimal visiting schedule using a priority queue.
+ * The visit priority is recalculated after each visit based on updated timestamps, ensuring that knowledge-sharing
+ * is efficient and effective across the island network.
+ *
+ * @author     Clarkin, Kevin
+ * @assignment ICS 311 Polynesian Triangle Assignment
+ * @date       11/03/2024
+ */
+
 import java.util.PriorityQueue;
 import java.util.Comparator;
 
