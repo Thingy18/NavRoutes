@@ -10,9 +10,6 @@ only carry a quantity of 10 units of a single resource though this could be chan
 a larger sample size and because it is not specifically said I am making the decision
 that there is a infinite number of canoes on each island
 
-The comments probably look wierd because I used a lot of ChatGPT to help me code I will
-fix them sunday unless you want to do that
-
 I have finished my algorithm and will put below the basics reasoning for my choices
 of data structure for the explanation 
 
