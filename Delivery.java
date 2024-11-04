@@ -1,6 +1,6 @@
 public class Delivery {
-    Island destination;
-    Resource resource;
+    Island destination; // The destination island
+    Resource resource; // The resource to be delivered
 
     public Delivery(Island destination, Resource resource) {
         this.destination = destination;

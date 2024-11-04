@@ -16,6 +16,7 @@ public class NavRoutes {
 
     public static void main(String[] args) throws FileNotFoundException{
         PolynesianTriangle pt = null;
+        // Sets up the Polynesian Triangle based on a provided file
         File file = new File("polytri.txt");
         try (Scanner scan = new Scanner(file)) {
             ArrayList<Island> islands = new ArrayList<Island>();
@@ -46,15 +47,13 @@ public class NavRoutes {
             }
             pt = new PolynesianTriangle(islands.toArray(new Island[islands.size()]), Routes.toArray(new Route[Routes.size()]));
         }
+        // Prints the initial state of the Polynesian Triangle
         System.out.println(pt.toString());
-        // Map<Island, List<Integer>> paths = findShortestPaths(pt, pt.getIslands()[0]);
-        // for (Map.Entry<Island, List<Integer>> entry : paths.entrySet()) {
-        //     System.out.println("Path to Island ID " + entry.getKey().getId() + ": " + entry.getValue());
-        // }
         pt = distrubuteResources(pt);
         while(pt.allFinished() == false){
             pt.progress();
         }
+        // Prints the final state of the Polynesian Triangle after resources have been distributed
         System.out.println(pt.toString());
 
     }
@@ -116,16 +115,17 @@ public class NavRoutes {
                             double neededQuantity = (temp1 / temp2) * temp3;
                             while (neededQuantity > 0 && resource.getQuantity() > 0) {
                                 if (neededQuantity >= 10) {
-                                    pt.addCanoe(new Canoe(new Resource(resource.getType(), 10), new CanoeRoute(pathRoutes, pathIslands, new Delivery(otherIsland, new Resource(resource.getType(), 10)), pt.canoesOnRoutes.size()), pt.canoesOnRoutes.size()));
-                                    neededQuantity -= 10; // Reduce the needed quantity
+                                    pt.addCanoe(new Canoe(new Resource(resource.getType(), 10), new CanoeRoute(pathRoutes, pathIslands, new Delivery(otherIsland, new Resource(resource.getType(), 10)), pt.getCanoesOnRoutes().size()), pt.getCanoesOnRoutes().size()));
+                                    neededQuantity -= 10;
                                 } else{
-                                    pt.addCanoe(new Canoe(new Resource(resource.getType(), (int) neededQuantity), new CanoeRoute(pathRoutes, pathIslands, new Delivery(otherIsland, new Resource(resource.getType(), (int) neededQuantity)), pt.canoesOnRoutes.size()), pt.canoesOnRoutes.size()));
-                                    neededQuantity = 0; // Set the needed quantity to 0
+                                    pt.addCanoe(new Canoe(new Resource(resource.getType(), (int) neededQuantity), new CanoeRoute(pathRoutes, pathIslands, new Delivery(otherIsland, new Resource(resource.getType(), (int) neededQuantity)), pt.getCanoesOnRoutes().size()), pt.getCanoesOnRoutes().size()));
+                                    neededQuantity = 0;
                                 }
                             }
                         }
                     }
                 }
+                //Removes the quantity of the unique resource from the island it is on to account for the resources that are being delivered
                 double temp1 = resource.getQuantity();
                 double temp2 = totalPeoples;
                 double temp3 = totalPeoples - island.getNumPeople();
@@ -168,7 +168,7 @@ public class NavRoutes {
                 if (newDist < distances.get(neighbor)) {
                     distances.put(neighbor, newDist);
                     List<Integer> newPath = new ArrayList<>(paths.get(currentIsland));
-                    newPath.add(neighbor.getId()); // Store the ID of the neighbor island
+                    newPath.add(neighbor.getId());
                     paths.put(neighbor, newPath);
                     queue.add(neighbor);
                 }

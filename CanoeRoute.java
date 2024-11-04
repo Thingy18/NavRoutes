@@ -1,15 +1,15 @@
 import java.util.LinkedList;
 
 public class CanoeRoute {
-    LinkedList<Route> routes;
-    LinkedList<Island> islands;
-    Delivery delivery;
-    boolean atSea = false;
-    boolean finished = false;
-    int timeIntoRoute = 0;
-    Route currentRoute;
-    Island currentIsland;
-    int id;
+    LinkedList<Route> routes; // The routes that the canoe will take
+    LinkedList<Island> islands; // The islands that the canoe will visit
+    Delivery delivery; // The instruction for the delivery
+    boolean atSea = false; // Whether the canoe is at sea or at an island
+    boolean finished = false; // Whether the canoe has finished its delivery
+    int timeIntoRoute = 0; // The time into the current route
+    Route currentRoute; // The current route that the canoe is on
+    Island currentIsland; // The current island that the canoe is at
+    int id; // The id of the canoe
 
     public CanoeRoute(LinkedList<Route> routes, LinkedList<Island> islands, Delivery delivery , int id) {
         this.routes = routes;
@@ -57,7 +57,6 @@ public class CanoeRoute {
                     }else{
                         currentRoute = routes.get(islandIndex + 1);
                     }
-                     // Ensure routes are in the same order as islands
                 } else {
                     finished = true; // No more islands to navigate to
                 }

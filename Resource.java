@@ -1,6 +1,6 @@
 public class Resource {
     String type; // Type of resource, e.g., "Food", "Water", "Medicine"
-    int quantity; // Quantity to deliver
+    int quantity; // Quantity of the resource
 
     public Resource(String type, int quantity) {
         this.type = type;

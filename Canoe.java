@@ -1,7 +1,7 @@
 public class Canoe {
-    Resource resource;
-    CanoeRoute cRoute;
-    int id;
+    Resource resource; // Resource carried by the canoe
+    CanoeRoute cRoute; // Route of the canoe
+    int id; // ID of the canoe
 
     public Canoe(Resource resource, CanoeRoute cRoute, int id) {
         this.resource = resource;

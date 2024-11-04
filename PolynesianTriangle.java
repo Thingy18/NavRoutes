@@ -7,9 +7,9 @@ import java.util.Iterator;
  * island data, and routes within the Polynesian Triangle.
  */
 public class PolynesianTriangle {
-    private Island[] islands;
-    private Route[] routes;
-    private LinkedList<Canoe> canoesOnRoutes;
+    private Island[] islands; // Array of islands in the Polynesian Triangle
+    private Route[] routes; // Array of routes in the Polynesian Triangle
+    private LinkedList<Canoe> canoesOnRoutes; // List of active canoes on routes
 
     /**
      * Constructs a PolynesianTriangle with a collection of islands and routes.
